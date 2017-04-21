@@ -7,9 +7,9 @@ C = 3;   % Constant before the number of samples from q
 num = 20;   % Number of points sampled in the plot
 mc_times = 10;  % Total number of Monte-Carlo trials for each alphabet size 
 
-record_k = 10^3;    % Alphabet size
+record_k = 10^4;    % Alphabet size
 
-record_m = ceil(logspace(3, 6, num)); % Number of samples from p
+record_m = ceil(logspace(3, 5, num)); % Number of samples from p
 
 
 
@@ -47,14 +47,10 @@ for iter = num:-1:1
     record_Aplugin = est_KL_Aplugin(samp_p,samp_q);  
     toc
     tic
-    record_Mplugin = est_KL_Mplugin(samp_p,samp_q);  
-    toc
-    tic
     record_opt = est_KL_opt(samp_p,samp_q,k);  
     toc
 
     Aplugin_err(iter) = sqrt(mean((record_Aplugin - true_KL(iter)).^2));  
-    Mplugin_err(iter) = sqrt(mean((record_Mplugin - true_KL(iter)).^2)); 
     opt_err(iter) = sqrt(mean((record_opt - true_KL(iter)).^2));
 end 
 
@@ -63,9 +59,8 @@ semilogx(record_m, opt_err,'b-s','LineWidth',2,'MarkerFaceColor','b');
 hold on;
 semilogx(record_m, Aplugin_err,'m-.o','LineWidth',2,'MarkerFaceColor','r'); 
 hold on;
-semilogx(record_m, Mplugin_err,'r-*','LineWidth',2,'MarkerFaceColor','k'); 
-hold on;
 
-legend('BZLV opt','BZLV A-plugin','HJW M-plugin');
+
+legend('BZLV A-plugin','BZLV opt');
 xlabel('m');
 ylabel('RMSE/nats');

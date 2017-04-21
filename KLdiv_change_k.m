@@ -49,25 +49,21 @@ for iter = num:-1:1
     record_Aplugin = est_KL_Aplugin(samp_p,samp_q);  
     toc
     tic
-    record_Mplugin = est_KL_Mplugin(samp_p,samp_q);  
-    toc
-    tic
     record_opt = est_KL_opt(samp_p,samp_q,k);  
     toc
 
     Aplugin_err(iter) = sqrt(mean((record_Aplugin - true_KL(iter)).^2));  
-    Mplugin_err(iter) = sqrt(mean((record_Mplugin - true_KL(iter)).^2)); 
     opt_err(iter) = sqrt(mean((record_opt - true_KL(iter)).^2));
 end 
 
 figure(1) 
-semilogx(record_k, opt_err,'b-s','LineWidth',2,'MarkerFaceColor','b'); 
-hold on;
 semilogx(record_k, Aplugin_err,'m-.o','LineWidth',2,'MarkerFaceColor','r'); 
 hold on;
-semilogx(record_k, Mplugin_err,'r-*','LineWidth',2,'MarkerFaceColor','k'); 
+semilogx(record_k, opt_err,'b-s','LineWidth',2,'MarkerFaceColor','b'); 
 hold on;
 
-legend('BZLV opt','BZLV A-plugin','HJW M-plugin');
+
+
+legend('BZLV A-plugin','BZLV opt');
 xlabel('k');
 ylabel('RMSE/nats');
